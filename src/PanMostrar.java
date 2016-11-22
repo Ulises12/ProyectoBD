@@ -70,7 +70,7 @@ public class PanMostrar extends javax.swing.JFrame {
                         + fechaNac + " " + edad + " " + sex + " " + mat + " " + semestre + 
                         " " + carrera);*/
                 
-                model.addElement(num + "  " +name +  " " + ap + " " + am + " " 
+                model.addElement(num + "  " + name +  " " + ap + " " + am + " " 
                         + fechaNac + " " + edad + " " + sex + " " + mat + " " + semestre + 
                         " " + carrera);
                 num++;
