@@ -282,7 +282,7 @@ public class Inicio extends javax.swing.JFrame {
         BasicDBObject document= new BasicDBObject ();
         
         
-        tabla.insert(document);
+        
         
         if(Nombre.getText().equals("") || ApPaterno.getText().equals("") || ApMaterno.getText().equals("") || EdadT.getText().equals("") || matricula.getText().equals("") || Carrera.getText().equals("")){
                 JOptionPane.showMessageDialog(null,"Faltan campos por llenar");
@@ -297,6 +297,8 @@ public class Inicio extends javax.swing.JFrame {
             document.put("Matricula", ""+ matricula.getText() +"");
             document.put("Semestre", Integer.parseInt(""+ semestre.getSelectedItem()));
             document.put("Carrera", ""+ Carrera.getText() +"");
+            
+            tabla.insert(document);
             
             javax.swing.JOptionPane. showMessageDialog (this, "Se ha agregado exitosamente un nuevo alumno");
             Inicio newFrame = new Inicio ();
