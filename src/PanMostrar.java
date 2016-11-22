@@ -149,15 +149,9 @@ public class PanMostrar extends javax.swing.JFrame {
                 String carrera = (String) obj.get("Carrera");
 
                 // Imprimir todo
-                Mostrar.setText(Mostrar.getText() + "\n" + "Nombre: " + name);
-                Mostrar.setText(Mostrar.getText() + "\n" + "Apellido Paterno : " + ap);
-                Mostrar.setText(Mostrar.getText() + "\n" + "Apellido Materno : " + am);
-                Mostrar.setText(Mostrar.getText() + "\n" + "Fecha de Nacimiento: " + fechaNac);
-                Mostrar.setText(Mostrar.getText() + "\n" + "Edad: " + edad);
-                Mostrar.setText(Mostrar.getText() + "\n" + "Sexo: " + sex);
-                Mostrar.setText(Mostrar.getText() + "\n" + "Matricula: " + mat);
-                Mostrar.setText(Mostrar.getText() + "\n" + "Semestre: " + semestre);
-                Mostrar.setText(Mostrar.getText() + "\n" + "Carrera: " + carrera);
+                Mostrar.setText(Mostrar.getText() + "\n" + name +  " " + ap + " " + am + " " 
+                        + fechaNac + " " + edad + " " + sex + " " + mat + " " + semestre + 
+                        " " + carrera);
                 Mostrar.setText(Mostrar.getText() + "\n");
                 Mostrar.setText(Mostrar.getText() + "\n");
             } catch (Exception ex) {
