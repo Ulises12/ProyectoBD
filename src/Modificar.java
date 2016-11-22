@@ -5,6 +5,8 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.Mongo;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -14,32 +16,46 @@ import javax.swing.JOptionPane;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author USER1
  */
-public class Inicio extends javax.swing.JFrame {
+public class Modificar extends javax.swing.JFrame {
 
     DB db;
-    DBCollection tabla;
+    DBCollection collection;
+    Object[] columnnames;
+    Object[] data;
+
     /**
      * Creates new form Inicio
      */
-    public Inicio() {
-        
+    public Modificar(Object[] columnnames, Object[] data) {
+
+        initComponents();
         //Conexion a mongoDb
         try {
-            Mongo mongo = new Mongo("localhost", 27017 );
-            db= mongo.getDB("Escuela"); 
-            tabla= db.getCollection("Alumnos");
-            
+            Mongo mongo = new Mongo("localhost", 27017);
+            db = mongo.getDB("Escuela");
+            collection = db.getCollection("Alumnos");
+            this.columnnames = columnnames;
+            this.data = data;
+            NombreT.setText((String) data[0]);
+            ApPaterno.setText((String) data[1]);
+            ApMaterno.setText((String) data[2]);
+            dia.setSelectedItem(((String) data[3]).split("-")[0]);
+            mes.setSelectedItem(((String) data[3]).split("-")[1]);
+            anio.setSelectedItem(((String) data[3]).split("-")[2]);
+            EdadT.setText((String) data[4]);
+            sexo.setSelectedItem((String) data[5]);
+            matricula.setText((String) data[6]);
+            semestre.setSelectedItem((String) data[7]);
+            Carrera.setText((String) data[8]);
+
         } catch (UnknownHostException ex) {
             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        initComponents();
+
     }
 
     /**
@@ -65,17 +81,17 @@ public class Inicio extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         Carrera = new javax.swing.JTextField();
-        semestre = new javax.swing.JComboBox<>();
+        semestre = new javax.swing.JComboBox<String>();
         Nombre1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        sexo = new javax.swing.JComboBox<>();
+        sexo = new javax.swing.JComboBox<String>();
         jLabel6 = new javax.swing.JLabel();
         Nombre2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         matricula = new javax.swing.JTextField();
-        dia = new javax.swing.JComboBox<>();
-        anio = new javax.swing.JComboBox<>();
-        mes = new javax.swing.JComboBox<>();
+        dia = new javax.swing.JComboBox<String>();
+        anio = new javax.swing.JComboBox<String>();
+        mes = new javax.swing.JComboBox<String>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -95,7 +111,7 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton1.setText("Guardar Datos");
+        jButton1.setText("Modificar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -123,7 +139,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Carrera:");
 
-        semestre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" }));
+        semestre.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" }));
         semestre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 semestreActionPerformed(evt);
@@ -136,7 +152,7 @@ public class Inicio extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Edad: ");
 
-        sexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino" }));
+        sexo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Masculino", "Femenino" }));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("Fecha de nacimiento:");
@@ -147,14 +163,14 @@ public class Inicio extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Matrícula:");
 
-        dia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30" }));
+        dia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30" }));
         dia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 diaActionPerformed(evt);
             }
         });
 
-        anio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1980", "1981", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "2000", "2001", "2002", "2003", "2004", "2005" }));
+        anio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1980", "1981", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "2000", "2001", "2002", "2003", "2004", "2005" }));
         anio.setToolTipText("");
         anio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,7 +178,7 @@ public class Inicio extends javax.swing.JFrame {
             }
         });
 
-        mes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
+        mes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
         mes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mesActionPerformed(evt);
@@ -274,46 +290,74 @@ public class Inicio extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+public List<BasicDBObject> createListBDBOfromArrays(Object[] columnnames, Object[] data) {
+        List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+        
+        if (data.length == columnnames.length) {
+            for (int i = 0; i < data.length; i++) {
+                      if(i==4||i==7){
+                    obj.add(new BasicDBObject((String) columnnames[i],Integer.parseInt((String)data[i])));
+                }
+                else
+                obj.add(new BasicDBObject((String) columnnames[i], (String) data[i]));
+            }
+        }
+        return obj;
+    }
+public BasicDBObject createBDBOfromArrays(Object[] columnnames, Object[] data) {
+        BasicDBObject obj = new BasicDBObject();
+        if (data.length == columnnames.length) {
+            for (int i = 0; i < data.length; i++) {
+                obj.append((String) columnnames[i],  data[i]);
+                
+            }
+        }
+        return obj;
+    }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //String e = EdadT.getText();
         //int i = Integer.parseInt(EdadT.getText());
-        
-        BasicDBObject document= new BasicDBObject ();
-        
-        
-        
-        
-        if(Nombre.getText().equals("") || ApPaterno.getText().equals("") || ApMaterno.getText().equals("") || EdadT.getText().equals("") || matricula.getText().equals("") || Carrera.getText().equals("")){
-                JOptionPane.showMessageDialog(null,"Faltan campos por llenar");
-        }
-        else{
-            document.put("Nombre", ""+ NombreT.getText() +"");
-            document.put("ApPaterno", ""+ ApPaterno.getText() +"");
-            document.put("ApMaterno", ""+ ApMaterno.getText() +"");
-            document.put("FechaNac", (String) dia.getSelectedItem() + "-" + mes.getSelectedItem() + "-" + anio.getSelectedItem());
-            document.put("Edad", Integer.parseInt(EdadT.getText()));
-            document.put("Sexo", ""+ sexo.getSelectedItem() +"");
-            document.put("Matricula", ""+ matricula.getText() +"");
-            document.put("Semestre", Integer.parseInt(""+ semestre.getSelectedItem()));
-            document.put("Carrera", ""+ Carrera.getText() +"");
-            tabla.insert(document);
-            javax.swing.JOptionPane. showMessageDialog (this, "Se ha agregado exitosamente un nuevo alumno");
-            Inicio newFrame = new Inicio ();
+
+        if (Nombre.getText().equals("") || ApPaterno.getText().equals("") || ApMaterno.getText().equals("") || EdadT.getText().equals("") || matricula.getText().equals("") || Carrera.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Faltan campos por llenar");
+        } else {
+//            document.put("Nombre", ""+ NombreT.getText() +"");
+//            document.put("ApPaterno", ""+ ApPaterno.getText() +"");
+//            document.put("ApMaterno", ""+ ApMaterno.getText() +"");
+//            document.put("FechaNac", (String) dia.getSelectedItem() + "-" + mes.getSelectedItem() + "-" + anio.getSelectedItem());
+//            document.put("Edad", Integer.parseInt(EdadT.getText()));
+//            document.put("Sexo", ""+ sexo.getSelectedItem() +"");
+//            document.put("Matricula", ""+ matricula.getText() +"");
+//            document.put("Semestre", Integer.parseInt(""+ semestre.getSelectedItem()));
+//            document.put("Carrera", ""+ Carrera.getText() +"");
+//            collection.insert(document);
+
+            Object[] obj = new Object[]{NombreT.getText(), ApPaterno.getText(),ApMaterno.getText(), dia.getSelectedItem() + "-" + mes.getSelectedItem() + "-" + anio.getSelectedItem(), 
+                Integer.parseInt(EdadT.getText()), sexo.getSelectedItem(), matricula.getText(), Integer.parseInt(""+semestre.getSelectedItem()), Carrera.getText()};
+            BasicDBObject updateQuery = new BasicDBObject();
+            updateQuery.append("$set",
+                    createBDBOfromArrays(columnnames, obj));
+            BasicDBObject searchQuery = new BasicDBObject();
+            searchQuery.put("$and",
+                    createListBDBOfromArrays(this.columnnames, this.data));
+System.out.println(updateQuery.toString());
+System.out.println(searchQuery.toString());
+            System.err.println(collection.update(searchQuery, updateQuery).getError());
+            javax.swing.JOptionPane.showMessageDialog(this, "Se ha actualizado exitosamente el alumno");
+            PanModificar newFrame = new PanModificar();
             newFrame.setVisible(true);
             this.dispose();
         }
-  
-        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
-         MenuPrincipal newFrame = new MenuPrincipal ();
-            newFrame.setVisible(true);
-            this.dispose();
-        
+        MenuPrincipal newFrame = new MenuPrincipal();
+        newFrame.setVisible(true);
+        this.dispose();
+
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 

@@ -13,8 +13,14 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.Mongo;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractListModel;
+import javax.swing.ListSelectionModel;
+import org.bson.BSONObject;
 
 public class PanModificar extends javax.swing.JFrame {
 
@@ -23,17 +29,48 @@ public class PanModificar extends javax.swing.JFrame {
      */
     DB db;
     DBCollection tabla;
+
     public PanModificar() {
-          //Conexion a mongoDb
+        //Conexion a mongoDb
         try {
-            Mongo mongo = new Mongo("localhost", 27017 );
-            db= mongo.getDB("Escuela"); 
-            tabla= db.getCollection("Alumnos");
-            
+            Mongo mongo = new Mongo("localhost", 27017);
+            db = mongo.getDB("Escuela");
+            tabla = db.getCollection("Alumnos");
+
         } catch (UnknownHostException ex) {
             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         }
+        DBCursor cursor = tabla.find();
+
+        ArrayList rows = new ArrayList();
+        String[] titulos = {"Nombre", "ApPaterno", "ApMaterno", "FechaNac", "Edad", "Sexo", "Matricula", "Semestre", "Carrera"};
+        ArrayList<String> columndata = new ArrayList<String>(Arrays.asList(titulos));
+        while (cursor.hasNext()) {
+            BSONObject obj = cursor.next();
+
+            // Obtener variables del JSON
+            try {
+
+                String name = (String) obj.get("Nombre");
+                String ap = (String) obj.get("ApPaterno");
+                String am = (String) obj.get("ApMaterno");
+                String fechaNac = (String) obj.get("FechaNac");
+                int edad = (int) obj.get("Edad");
+                String sex = (String) obj.get("Sexo");
+                String mat = (String) obj.get("Matricula");
+                int semestre = (int) obj.get("Semestre");
+                String carrera = (String) obj.get("Carrera");
+                ArrayList<String> row = new ArrayList<String>(Arrays.asList(new String[]{name, ap, am, fechaNac, "" + edad, sex, mat, "" + semestre, carrera}));
+                rows.add(row);
+            } catch (Exception ex) {
+                System.out.println("objeto no completo");
+            }
+
+        }
+
         initComponents();
+        jTable1.setModel(new CustomTableModel(columndata, rows, "no hay datos en la bd!!"));
+        jTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     /**
@@ -47,6 +84,10 @@ public class PanModificar extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,6 +102,34 @@ public class PanModificar extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTable1);
+
+        jScrollPane3.setViewportView(jScrollPane2);
+
+        jButton2.setText("Actualizar");
+        jButton2.setEnabled(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -68,20 +137,29 @@ public class PanModificar extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(218, 218, 218)
                 .addComponent(jLabel1)
-                .addContainerGap(188, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(36, 36, 36))
+                .addContainerGap()
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 275, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(57, 57, 57))
+                .addGap(19, 19, 19)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
@@ -89,12 +167,41 @@ public class PanModificar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
- MenuPrincipal newFrame = new MenuPrincipal ();
-            newFrame.setVisible(true);
-            this.dispose();
-        
+        MenuPrincipal newFrame = new MenuPrincipal();
+        newFrame.setVisible(true);
+        this.dispose();
+
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int rows = jTable1.getSelectedRowCount();
+
+        if (rows > 0) {
+            System.out.println();
+
+                Modificar newFrame = new Modificar(((CustomTableModel) jTable1.getModel()).getColumnNames(),((CustomTableModel) jTable1.getModel()).getRow(jTable1.getSelectedRow()));
+                newFrame.setVisible(true);
+                this.dispose();
+            
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int rows = jTable1.getSelectedRowCount();
+
+        if (rows > 0) {
+            jButton2.setEnabled(true);
+            if (evt.getClickCount() > 1) {
+
+                  Modificar newFrame = new Modificar(((CustomTableModel) jTable1.getModel()).getColumnNames(),((CustomTableModel) jTable1.getModel()).getRow(jTable1.getSelectedRow()));
+                newFrame.setVisible(true);
+                this.dispose();
+            }
+        }
+
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -133,6 +240,10 @@ public class PanModificar extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
