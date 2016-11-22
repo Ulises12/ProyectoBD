@@ -158,8 +158,8 @@ public class PanMostrar extends javax.swing.JFrame {
                 Mostrar.setText(Mostrar.getText() + "\n" + "Matricula: " + mat);
                 Mostrar.setText(Mostrar.getText() + "\n" + "Semestre: " + semestre);
                 Mostrar.setText(Mostrar.getText() + "\n" + "Carrera: " + carrera);
-                Mostrar.setText("\n");
-                Mostrar.setText("\n");
+                Mostrar.setText(Mostrar.getText() + "\n");
+                Mostrar.setText(Mostrar.getText() + "\n");
             } catch (Exception ex) {
                 System.out.println("objeto no completo");
             }
