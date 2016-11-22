@@ -13,7 +13,7 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
-
+!mongo-2.9.3.jar
 # Windows shortcuts
 *.lnk
 
