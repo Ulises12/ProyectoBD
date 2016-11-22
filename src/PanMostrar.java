@@ -6,6 +6,7 @@ import com.mongodb.Mongo;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.bson.BSONObject;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -130,9 +131,38 @@ public class PanMostrar extends javax.swing.JFrame {
         
         DBCursor cursor= tabla.find();
         
+        
         while(cursor.hasNext())
         {
-            Mostrar.setText(Mostrar.getText()+ "\n"+ cursor.next());
+            BSONObject obj = cursor.next();
+            
+            // Obtener variables del JSON
+            try {
+                String name = (String) obj.get("Nombre");
+                String ap = (String) obj.get("ApPaterno");
+                String am = (String) obj.get("ApMaterno");
+                String fechaNac = (String) obj.get("FechaNac");
+                int edad = (int) obj.get("Edad");
+                String sex = (String) obj.get("Sexo");
+                String mat = (String) obj.get("Matricula");
+                int semestre = (int) obj.get("Semestre");
+                String carrera = (String) obj.get("Carrera");
+
+                // Imprimir todo
+                Mostrar.setText(Mostrar.getText() + "\n" + "Nombre: " + name);
+                Mostrar.setText(Mostrar.getText() + "\n" + "Apellido Paterno : " + ap);
+                Mostrar.setText(Mostrar.getText() + "\n" + "Apellido Materno : " + am);
+                Mostrar.setText(Mostrar.getText() + "\n" + "Fecha de Nacimiento: " + fechaNac);
+                Mostrar.setText(Mostrar.getText() + "\n" + "Edad: " + edad);
+                Mostrar.setText(Mostrar.getText() + "\n" + "Sexo: " + sex);
+                Mostrar.setText(Mostrar.getText() + "\n" + "Matricula: " + mat);
+                Mostrar.setText(Mostrar.getText() + "\n" + "Semestre: " + semestre);
+                Mostrar.setText(Mostrar.getText() + "\n" + "Carrera: " + carrera);
+                Mostrar.setText("\n");
+                Mostrar.setText("\n");
+            } catch (Exception ex) {
+                System.out.println("objeto no completo");
+            }
         }
 
 // TODO add your handling code here:
