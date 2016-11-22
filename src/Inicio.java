@@ -27,18 +27,18 @@ public class Inicio extends javax.swing.JFrame {
      * Creates new form Inicio
      */
     public Inicio() {
-        
+
         //Conexion a mongoDb
         try {
             Mongo mongo = new Mongo("localhost", 27017 );
-            db= mongo.getDB("Escuela"); 
+            db= mongo.getDB("Escuela");
             tabla= db.getCollection("Alumnos");
-            
+
         } catch (UnknownHostException ex) {
             Logger.getLogger(Inicio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
+
         initComponents();
     }
 
@@ -278,12 +278,12 @@ public class Inicio extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //String e = EdadT.getText();
         //int i = Integer.parseInt(EdadT.getText());
-        
+
         BasicDBObject document= new BasicDBObject ();
-        
-        
-        
-        
+
+
+
+
         if(Nombre.getText().equals("") || ApPaterno.getText().equals("") || ApMaterno.getText().equals("") || EdadT.getText().equals("") || matricula.getText().equals("") || Carrera.getText().equals("")){
                 JOptionPane.showMessageDialog(null,"Faltan campos por llenar");
         }
@@ -297,14 +297,16 @@ public class Inicio extends javax.swing.JFrame {
             document.put("Matricula", ""+ matricula.getText() +"");
             document.put("Semestre", Integer.parseInt(""+ semestre.getSelectedItem()));
             document.put("Carrera", ""+ Carrera.getText() +"");
+
             tabla.insert(document);
+            
             javax.swing.JOptionPane. showMessageDialog (this, "Se ha agregado exitosamente un nuevo alumno");
             Inicio newFrame = new Inicio ();
             newFrame.setVisible(true);
             this.dispose();
         }
-  
-        
+
+
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -313,7 +315,7 @@ public class Inicio extends javax.swing.JFrame {
          MenuPrincipal newFrame = new MenuPrincipal ();
             newFrame.setVisible(true);
             this.dispose();
-        
+
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -344,7 +346,7 @@ public class Inicio extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
